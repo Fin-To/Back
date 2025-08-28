@@ -35,10 +35,10 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/your-app-name:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/finto:latest
           file: ./Dockerfile
           build-args: |
-            JAR_FILE=build/libs/your-project-name.jar
+            JAR_FILE=build/libs/FinTo-0.0.1-SNAPSHOT.jar
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
