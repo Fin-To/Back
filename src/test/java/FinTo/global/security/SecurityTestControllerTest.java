@@ -32,7 +32,7 @@ class SecurityTestControllerTest {
     @DisplayName("익명 사용자는 /test/authenticated에 접근 불가")
     void anonymousCannotAccessAuthenticatedEndpoint() {
         assertThat(mockMvc.get().uri("/test/authenticated"))
-                .hasStatus(HttpStatus.FORBIDDEN);
+                .hasStatus(HttpStatus.UNAUTHORIZED);
     }
 
     @Test
