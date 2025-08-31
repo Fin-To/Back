@@ -1,10 +1,6 @@
 package FinTo.global.security.jwt;
 
 import FinTo.global.security.exception.JwtAuthenticationException;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -12,7 +8,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-import ppalatjyo.server.global.security.exception.JwtValidationException;
 
 @Component
 @RequiredArgsConstructor
@@ -36,7 +31,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                     token,
                     userDetails.getAuthorities());
         } catch (Exception e) { // JwtException을 AuthenticationException 으로 변환
-            throw new JwtAuthenticationException(e);
+            throw new JwtAuthenticationException();
         }
     }
 
