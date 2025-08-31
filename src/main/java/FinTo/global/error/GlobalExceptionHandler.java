@@ -14,12 +14,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleBaseException(BaseException e, HttpServletRequest request) {
         log.info("BaseException 발생: 요청 [{}], 코드 [{}], 메시지 [{}]",
                 request.getRequestURI(), e.getErrorCode(), e.getMessage());
-        return ErrorResponse.create(e.getErrorCode(), request.getRequestURI());
+        return ErrorResponse.toResponseEntity(e.getErrorCode(), request.getRequestURI());
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest request) {
         log.error("예기치 못한 예외 발생: 요청 [{}]", request.getRequestURI(), e);
-        return ErrorResponse.create(ErrorCode.INTERNAL_SERVER_ERROR, request.getRequestURI());
+        return ErrorResponse.toResponseEntity(ErrorCode.INTERNAL_SERVER_ERROR, request.getRequestURI());
     }
 }

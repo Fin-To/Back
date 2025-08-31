@@ -16,7 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -24,6 +23,8 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -41,8 +42,8 @@ public class SecurityConfig {
                 )
                 .addFilterAfter(jwtAuthenticationFilter(), LogoutFilter.class)
                 .exceptionHandling(configurer -> configurer
-                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                        .accessDeniedHandler(new CustomAccessDeniedHandler())
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .build();
     }

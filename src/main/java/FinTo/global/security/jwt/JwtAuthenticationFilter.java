@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authenticationResult);
         } catch (Exception e) {
-            log.trace("Exception occurred on JwtAuthenticationFilter. This usually means request has proper Bearer header but failed to validate the token. The filter does not throw an exception out of the filter chain but simply delegates the exception strategy to AuthorizationFilter.", e);
+            log.debug("Exception occurred on JwtAuthenticationFilter. This usually means request has proper Bearer header but failed to validate the token. The filter does not throw an exception out of the filter chain but simply delegates the exception strategy to AuthorizationFilter.", e);
         }
 
         filterChain.doFilter(request, response);

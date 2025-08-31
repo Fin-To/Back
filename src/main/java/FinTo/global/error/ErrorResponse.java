@@ -3,10 +3,12 @@ package FinTo.global.error;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 
+@Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
 public class ErrorResponse {
@@ -16,7 +18,7 @@ public class ErrorResponse {
     @Builder.Default
     private final LocalDateTime timestamp = LocalDateTime.now();
 
-    public static ResponseEntity<ErrorResponse> create(ErrorCode code, String path) {
+    public static ResponseEntity<ErrorResponse> toResponseEntity(ErrorCode code, String path) {
         return ResponseEntity.status(code.getStatus()).body(
                 ErrorResponse.builder()
                         .status(code.toString())
@@ -24,5 +26,13 @@ public class ErrorResponse {
                         .path(path)
                         .build()
         );
+    }
+
+    public static ErrorResponse create(ErrorCode code, String path) {
+        return ErrorResponse.builder()
+                .status(code.toString())
+                .error(code.getMessage())
+                .path(path)
+                .build();
     }
 }

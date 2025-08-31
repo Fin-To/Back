@@ -1,5 +1,6 @@
 package FinTo.global.security.jwt;
 
+import FinTo.global.error.ErrorCode;
 import FinTo.global.security.exception.JwtAuthenticationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -31,7 +32,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                     token,
                     userDetails.getAuthorities());
         } catch (Exception e) { // JwtException을 AuthenticationException 으로 변환
-            throw new JwtAuthenticationException();
+            throw new JwtAuthenticationException(ErrorCode.JWT_AUTHENTICATION_FAIL);
         }
     }
 
