@@ -8,6 +8,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.stream.Collectors;
 
@@ -20,6 +21,12 @@ public class GlobalExceptionHandler {
         log.info("BaseException 발생: 요청 [{}], 코드 [{}], 메시지 [{}]",
                 request.getRequestURI(), e.getErrorCode(), e.getMessage());
         return ErrorResponse.toResponseEntity(e.getErrorCode(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFoundException(
+            HttpServletRequest request) {
+        return ErrorResponse.toResponseEntity(ErrorCode.RESOURCE_NOT_FOUND, request.getRequestURI());
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
