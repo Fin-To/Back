@@ -1,5 +1,7 @@
 package FinTo.domain.member.service;
 
+import FinTo.domain.member.domain.OAuthProvider;
+import FinTo.domain.member.dto.MemberCreateRequestDto;
 import FinTo.domain.member.repository.MemberRepository;
 import FinTo.domain.member.domain.Member;
 import FinTo.domain.member.exception.MemberNotFoundException;
@@ -15,8 +17,22 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
     @Override
+    public Member create(MemberCreateRequestDto requestDto) {
+        return memberRepository.save(requestDto.toEntity());
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Member getById(Long id) {
         return memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+    }
+
+    @Override
+    public Member getOrCreateByOAuthInfo(OAuthProvider provider, String oAuthId) {
+
+        memberRepository.findByOauthProviderAndOauthId(provider, oAuthId)
+                .orElseGet(() -> create(MemberCreateRequestDto.of(null, provider, oAuthId)));
+
+        return null;
     }
 }

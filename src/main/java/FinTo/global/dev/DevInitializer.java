@@ -28,7 +28,7 @@ public class DevInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Member dev = memberRepository.findByName("dev")
                 .orElseGet(() -> {
-                    Member member = Member.create("dev");
+                    Member member = Member.of("dev");
                     memberRepository.save(member);
                     log.info("개발용 Member 생성: id={}, name={}",
                             member.getId(), member.getName());
