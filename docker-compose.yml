@@ -4,6 +4,12 @@ services:
   db:
     image: mysql:8.0
     container_name: mysql-db-container
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
     environment:
       - MYSQL_ROOT_PASSWORD=1234
       - MYSQL_DATABASE=finto
