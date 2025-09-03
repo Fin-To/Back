@@ -10,6 +10,9 @@ public enum ErrorCode {
     // NOT FOUND
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 유저가 없습니다."),
 
+    // METHOD NOT ALLOWED
+    METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "지원하지 않는 HTTP 메서드입니다."),
+
     // UNAUTHORIZED
     AUTHENTICATION_REQUIRED(HttpStatus.UNAUTHORIZED, "인증이 필요한 요청입니다."),
     JWT_AUTHENTICATION_FAIL(HttpStatus.UNAUTHORIZED, "JWT 인증에 실패하였습니다."),

@@ -3,6 +3,7 @@ package FinTo.global.auth;
 import FinTo.domain.member.domain.OAuthProvider;
 import FinTo.global.auth.dto.LoginRequestDto;
 import FinTo.global.auth.dto.LoginResponseDto;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,10 @@ public class AuthController {
     @PostMapping("/login/{provider}")
     public ResponseEntity<LoginResponseDto> login(
             @PathVariable("provider") String provider,
-            @RequestBody LoginRequestDto loginRequestDto
+            @RequestBody LoginRequestDto loginRequestDto,
+            HttpServletResponse response
             ) {
         OAuthProvider oAuthProvider = OAuthProvider.valueOf(provider.toUpperCase());
-        return ResponseEntity.ok(authService.login(oAuthProvider, loginRequestDto.getCode()));
+        return ResponseEntity.ok(authService.login(response, oAuthProvider, loginRequestDto.getCode()));
     }
 }

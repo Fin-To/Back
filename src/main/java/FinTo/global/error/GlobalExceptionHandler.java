@@ -3,6 +3,7 @@ package FinTo.global.error;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -15,6 +16,11 @@ public class GlobalExceptionHandler {
         log.info("BaseException 발생: 요청 [{}], 코드 [{}], 메시지 [{}]",
                 request.getRequestURI(), e.getErrorCode(), e.getMessage());
         return ErrorResponse.toResponseEntity(e.getErrorCode(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpServletRequest request) {
+        return ErrorResponse.toResponseEntity(ErrorCode.METHOD_NOT_ALLOWED, request.getRequestURI());
     }
 
     @ExceptionHandler(Exception.class)
