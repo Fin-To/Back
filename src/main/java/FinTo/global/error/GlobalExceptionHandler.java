@@ -5,8 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @Slf4j
@@ -33,6 +36,22 @@ public class GlobalExceptionHandler {
                 request.getRequestURI(), e.getMessage());
 
         return ErrorResponse.toResponseEntity(ErrorCode.BAD_REQUEST, request.getRequestURI());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException e,
+            HttpServletRequest request) {
+
+        // 필드별 오류 메시지 합치기
+        String validationErrors = e.getBindingResult().getFieldErrors().stream()
+                .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+                .collect(Collectors.joining(", "));
+
+        log.info("ValidationException 발생: 요청 [{}], 메시지 [{}]",
+                request.getRequestURI(), validationErrors);
+
+        return ErrorResponse.toResponseEntity(ErrorCode.BAD_REQUEST, request.getRequestURI(), validationErrors);
     }
 
     @ExceptionHandler(Exception.class)
