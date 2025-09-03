@@ -15,8 +15,11 @@ import java.util.Collections;
 public class GoogleOAuthService implements OAuthService {
 
     private final RestTemplate restTemplate = new RestTemplate();
+
     private final String tokenUri = "https://oauth2.googleapis.com/token";
     private final String userInfoUri = "https://www.googleapis.com/oauth2/v3/userinfo";
+    private final String authUri = "https://accounts.google.com/o/oauth2/v2/auth";
+
     @Value("${oauth.google.client-id}")
     private String clientId;
     @Value("${oauth.google.client-secret}")
@@ -33,6 +36,14 @@ public class GoogleOAuthService implements OAuthService {
     public String getOAuthId(String code) {
         GoogleTokenResponse tokenResponse = getAccessToken(code);
         return getUserInfo(tokenResponse.getAccessToken()).getSub();
+    }
+
+    @Override
+    public String getAuthorizationUrl() {
+        return authUri + "?client_id=" + clientId
+                + "&redirect_uri=" + redirectUri
+                + "&response_type=code"
+                + "&scope=email%20profile";
     }
 
     private GoogleTokenResponse getAccessToken(String code) {

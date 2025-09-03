@@ -5,4 +5,5 @@ import FinTo.domain.member.domain.OAuthProvider;
 public interface OAuthService {
     OAuthProvider getProvider();
     String getOAuthId(String code);
+    String getAuthorizationUrl();
 }

@@ -38,4 +38,8 @@ public class AuthService {
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
     }
+
+    public String getAuthorizationUrl(OAuthProvider provider) {
+        return oAuthServiceFactory.get(provider).getAuthorizationUrl();
+    }
 }
