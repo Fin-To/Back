@@ -6,6 +6,7 @@ import FinTo.global.auth.dto.LoginResponseDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,7 +19,7 @@ public class AuthController {
     @PostMapping("/login/{provider}")
     public ResponseEntity<LoginResponseDto> login(
             @PathVariable("provider") String provider,
-            @RequestBody LoginRequestDto loginRequestDto,
+            @RequestBody @Validated LoginRequestDto loginRequestDto,
             HttpServletResponse response
             ) {
         OAuthProvider oAuthProvider = OAuthProvider.valueOf(provider.toUpperCase());

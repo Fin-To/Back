@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
+    // BAD REQUEST
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다. 필요한 요청 데이터가 없거나, 지원되지 않는 형식입니다."),
+
     // NOT FOUND
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 유저가 없습니다."),
 
