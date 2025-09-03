@@ -7,6 +7,5 @@ import FinTo.domain.member.domain.OAuthProvider;
 public interface MemberService {
     Member create(MemberCreateRequestDto requestDto);
     Member getById(Long id);
-
     Member getOrCreateByOAuthInfo(OAuthProvider provider, String oAuthId);
 }

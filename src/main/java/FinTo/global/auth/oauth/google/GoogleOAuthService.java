@@ -1,10 +1,9 @@
 package FinTo.global.auth.oauth.google;
 
 import FinTo.domain.member.domain.OAuthProvider;
-import FinTo.global.auth.dto.LoginResponseDto;
 import FinTo.global.auth.oauth.OAuthService;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -31,10 +30,9 @@ public class GoogleOAuthService implements OAuthService {
     }
 
     @Override
-    public ResponseEntity<LoginResponseDto> getOAuthId(String code) {
+    public String getOAuthId(String code) {
         GoogleTokenResponse tokenResponse = getAccessToken(code);
-        GoogleUserInfo userInfo = getUserInfo(tokenResponse.getAccessToken());
-        return null;
+        return getUserInfo(tokenResponse.getAccessToken()).getSub();
     }
 
     private GoogleTokenResponse getAccessToken(String code) {
@@ -75,14 +73,14 @@ public class GoogleOAuthService implements OAuthService {
         return response.getBody();
     }
 
-    @Getter
+    @Data
     public static class GoogleTokenResponse {
         @JsonProperty("access_token")
         private String accessToken;
     }
 
-    @Getter
-    private class GoogleUserInfo {
+    @Data
+    private static class GoogleUserInfo {
         private String sub;
         private String email;
         private String name;
