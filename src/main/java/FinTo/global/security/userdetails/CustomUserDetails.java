@@ -1,6 +1,6 @@
 package FinTo.global.security.userdetails;
 
-import FinTo.domain.member.Member;
+import FinTo.domain.member.domain.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +14,10 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails(Member member) {
         this.member = member;
+    }
+
+    public static CustomUserDetails of(Member member) {
+        return new CustomUserDetails(member);
     }
 
     public Long getId() {

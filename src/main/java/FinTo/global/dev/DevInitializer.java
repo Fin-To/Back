@@ -1,7 +1,8 @@
 package FinTo.global.dev;
 
-import FinTo.domain.member.Member;
-import FinTo.domain.member.MemberRepository;
+import FinTo.domain.member.domain.Member;
+import FinTo.domain.member.domain.OAuthProvider;
+import FinTo.domain.member.service.MemberService;
 import FinTo.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,20 +21,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class DevInitializer implements CommandLineRunner {
 
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
 
 
     @Override
     public void run(String... args) throws Exception {
-        Member dev = memberRepository.findByName("dev")
-                .orElseGet(() -> {
-                    Member member = Member.create("dev");
-                    memberRepository.save(member);
-                    log.info("개발용 Member 생성: id={}, name={}",
-                            member.getId(), member.getName());
-                    return member;
-                });
+        Member dev = memberService.getOrCreateByOAuthInfo(OAuthProvider.GOOGLE, "mockOAuthId");
 
         String accessToken = jwtTokenProvider.createAccessToken(dev.getId());
 

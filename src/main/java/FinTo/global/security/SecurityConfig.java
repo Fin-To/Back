@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/error",
+                                "/auth/**",
                                 "/test/anonymous",
                                 "/actuator/health"
                         ).permitAll()

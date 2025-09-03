@@ -2,7 +2,6 @@ package FinTo.global.security.handler;
 
 import FinTo.global.error.ErrorCode;
 import FinTo.global.error.ErrorResponse;
-import FinTo.global.security.exception.JwtAuthenticationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,10 +28,10 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         String token = request.getHeader("Authorization"); // Bearer 토큰 여부 확인
         if (token == null || token.isEmpty()) {
             // 인증 자체 없음
-            errorResponse = ErrorResponse.create(ErrorCode.AUTHENTICATION_REQUIRED, request.getRequestURI());
+            errorResponse = ErrorResponse.of(ErrorCode.AUTHENTICATION_REQUIRED, request.getRequestURI());
         } else {
             // 인증 시도는 있었으나 실패
-            errorResponse = ErrorResponse.create(ErrorCode.JWT_AUTHENTICATION_FAIL, request.getRequestURI());
+            errorResponse = ErrorResponse.of(ErrorCode.JWT_AUTHENTICATION_FAIL, request.getRequestURI());
         }
 
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

@@ -3,8 +3,14 @@ package FinTo.global.error;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
+
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @Slf4j
@@ -15,6 +21,44 @@ public class GlobalExceptionHandler {
         log.info("BaseException 발생: 요청 [{}], 코드 [{}], 메시지 [{}]",
                 request.getRequestURI(), e.getErrorCode(), e.getMessage());
         return ErrorResponse.toResponseEntity(e.getErrorCode(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFoundException(
+            HttpServletRequest request) {
+        return ErrorResponse.toResponseEntity(ErrorCode.RESOURCE_NOT_FOUND, request.getRequestURI());
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpServletRequest request) {
+        return ErrorResponse.toResponseEntity(ErrorCode.METHOD_NOT_ALLOWED, request.getRequestURI());
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(
+            HttpMessageNotReadableException e,
+            HttpServletRequest request) {
+
+        log.info("HttpMessageNotReadableException 발생: 요청 [{}], 메시지 [{}]",
+                request.getRequestURI(), e.getMessage());
+
+        return ErrorResponse.toResponseEntity(ErrorCode.BAD_REQUEST, request.getRequestURI());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException e,
+            HttpServletRequest request) {
+
+        // 필드별 오류 메시지 합치기
+        String validationErrors = e.getBindingResult().getFieldErrors().stream()
+                .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+                .collect(Collectors.joining(", "));
+
+        log.info("ValidationException 발생: 요청 [{}], 메시지 [{}]",
+                request.getRequestURI(), validationErrors);
+
+        return ErrorResponse.toResponseEntity(ErrorCode.BAD_REQUEST, request.getRequestURI(), validationErrors);
     }
 
     @ExceptionHandler(Exception.class)
