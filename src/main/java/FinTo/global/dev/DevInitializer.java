@@ -1,7 +1,7 @@
 package FinTo.global.dev;
 
 import FinTo.domain.member.domain.Member;
-import FinTo.domain.member.MemberRepository;
+import FinTo.domain.member.repository.MemberRepository;
 import FinTo.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

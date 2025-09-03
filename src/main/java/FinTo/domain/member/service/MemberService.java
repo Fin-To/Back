@@ -1,4 +1,4 @@
-package FinTo.domain.member;
+package FinTo.domain.member.service;
 
 import FinTo.domain.member.domain.Member;
 
