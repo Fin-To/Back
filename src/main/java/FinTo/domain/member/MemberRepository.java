@@ -1,5 +1,6 @@
 package FinTo.domain.member;
 
+import FinTo.domain.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

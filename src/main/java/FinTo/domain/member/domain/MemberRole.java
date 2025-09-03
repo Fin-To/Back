@@ -1,4 +1,4 @@
-package FinTo.domain.member;
+package FinTo.domain.member.domain;
 
 public enum MemberRole {
     MEMBER,

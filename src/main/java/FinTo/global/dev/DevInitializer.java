@@ -1,6 +1,6 @@
 package FinTo.global.dev;
 
-import FinTo.domain.member.Member;
+import FinTo.domain.member.domain.Member;
 import FinTo.domain.member.MemberRepository;
 import FinTo.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;

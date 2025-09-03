@@ -1,4 +1,4 @@
-package FinTo.domain.member;
+package FinTo.domain.member.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,6 +15,10 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberRole role;
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private OAuthProvider oAuthProvider;
+    private String oAuthId;
 
     public static Member create(String name) {
         return Member.builder()
