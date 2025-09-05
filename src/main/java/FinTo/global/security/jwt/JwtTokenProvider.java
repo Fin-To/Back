@@ -3,6 +3,7 @@ package FinTo.global.security.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -12,7 +13,9 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
-    private static final String SECRET_KEY = "my-very-secret-key-that-should-be-at-least-256-bits-long!";
+    @Value("${jwt.secret-key:my-very-secret-key-that-should-be-at-least-256-bits-long!}")
+    private String SECRET_KEY;
+
     private static final long ACCESS_TOKEN_MAX_AGE = 1000L * 60 * 60 * 24; // 24시간
     private static final long REFRESH_TOKEN_MAX_AGE = 1000L * 60 * 60 * 24 * 30; // 30일
 
