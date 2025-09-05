@@ -23,8 +23,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly = true)
-    public Member getById(Long id) {
-        return memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+    public Member getById(Long userId) {
+        return memberRepository.findById(userId).orElseThrow(MemberNotFoundException::new);
     }
 
     @Override
