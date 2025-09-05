@@ -5,7 +5,7 @@ import FinTo.domain.member.domain.OAuthProvider;
 import FinTo.domain.member.service.MemberService;
 import FinTo.global.auth.dto.LoginResponseDto;
 import FinTo.global.auth.oauth.OAuthServiceFactory;
-import FinTo.global.security.jwt.JwtTokenProvider;
+import FinTo.global.security.jwt.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +17,15 @@ public class AuthService {
 
     private final OAuthServiceFactory oAuthServiceFactory;
     private final MemberService memberService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtUtil jwtUtil;
 
     public LoginResponseDto login(HttpServletResponse response, OAuthProvider provider, String code) {
         String oAuthId = oAuthServiceFactory.get(provider).getOAuthId(code);
 
         Member member = memberService.getOrCreateByOAuthInfo(provider, oAuthId);
 
-        String accessToken = jwtTokenProvider.createAccessToken(member.getId());
-        String refreshToken = jwtTokenProvider.createRefreshToken(member.getId());
+        String accessToken = jwtUtil.createAccessToken(member.getId());
+        String refreshToken = jwtUtil.createRefreshToken(member.getId());
         storeRefreshTokenInCookie(response, refreshToken);
 
         return LoginResponseDto.of(accessToken);
@@ -33,7 +33,7 @@ public class AuthService {
 
     private void storeRefreshTokenInCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie("refreshToken", refreshToken);
-        cookie.setMaxAge(jwtTokenProvider.getRefreshTokenMaxAgeInSeconds());
+        cookie.setMaxAge(jwtUtil.getRefreshTokenMaxAgeInSeconds());
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         response.addCookie(cookie);

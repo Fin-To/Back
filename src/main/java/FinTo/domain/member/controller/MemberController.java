@@ -24,9 +24,9 @@ public class MemberController {
         return MemberResponseDto.toResponseEntity(memberService.getById(userDetails.getId()));
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<MemberResponseDto> member(@PathVariable(value = "userId") Long userId){
-        return MemberResponseDto.toResponseEntity(memberService.getById(userId));
+    @GetMapping("/{memberId}")
+    public ResponseEntity<MemberResponseDto> member(@PathVariable(value = "memberId") Long memberId){
+        return MemberResponseDto.toResponseEntity(memberService.getById(memberId));
     }
 
     @PostMapping
@@ -35,7 +35,7 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping
+    @PatchMapping("/me")
     public ResponseEntity<Void> updateMe(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody MemberUpdateRequestDto requestDto
@@ -44,24 +44,24 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/{userId}")
+    @PatchMapping("/{memberId}")
     public ResponseEntity<Void> update(
-            @PathVariable(value = "userId") Long userId,
+            @PathVariable(value = "memberId") Long memberId,
             @RequestBody MemberUpdateRequestDto requestDto
             ) {
-        memberService.update(userId, requestDto);
+        memberService.update(memberId, requestDto);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/me")
     public ResponseEntity<Void> updateMe(@AuthenticationPrincipal CustomUserDetails userDetails) {
         memberService.delete(userDetails.getId());
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> updateMe(@PathVariable(value = "userId") Long userId) {
-        memberService.delete(userId);
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<Void> updateMe(@PathVariable(value = "memberId") Long memberId) {
+        memberService.delete(memberId);
         return ResponseEntity.ok().build();
     }
 }

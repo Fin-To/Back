@@ -15,16 +15,16 @@ import org.springframework.stereotype.Component;
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtUtil jwtUtil;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String token = (String) authentication.getCredentials();
 
         try {
-            jwtTokenProvider.validateToken(token); // 여기서 예외가 발생하면 catch로 넘어감
+            jwtUtil.validateToken(token); // 여기서 예외가 발생하면 catch로 넘어감
 
-            String userId = jwtTokenProvider.getUserIdFromToken(token);
+            String userId = jwtUtil.getUserIdFromToken(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(userId); // throws UsernameNotFoundException
 
             return JwtAuthenticationToken.authenticated(
