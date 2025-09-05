@@ -1,11 +1,14 @@
 package FinTo.domain.member.domain;
 
-import FinTo.domain.member.dto.MemberCreateRequestDto;
+import FinTo.domain.nationality.Nationality;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
@@ -19,13 +22,23 @@ public class Member {
     @Id
     @GeneratedValue
     private Long id;
+
     @Enumerated(EnumType.STRING)
     private MemberRole role;
-    private String name;
 
     @Enumerated(EnumType.STRING)
     private OAuthProvider oauthProvider;
     private String oauthId;
+
+    private String name;
+    private LocalDate birthDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "nationality_id")
+    private Nationality nationality;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     public static Member of(String name, OAuthProvider oauthProvider, String oauthId) {
         return Member.builder()
