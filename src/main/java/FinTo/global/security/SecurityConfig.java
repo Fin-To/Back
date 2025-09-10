@@ -38,7 +38,8 @@ public class SecurityConfig {
                                 "/error",
                                 "/auth/**",
                                 "/test/anonymous",
-                                "/actuator/health"
+                                "/actuator/health",
+                                "/signaling"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
