@@ -1,8 +1,12 @@
 package FinTo.domain.mentoring.controller;
 
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
+import FinTo.domain.mentoring.dto.response.MentoringMyListResponseDto;
 import FinTo.domain.mentoring.service.MentoringService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,4 +22,15 @@ public class MentoringController {
         mentoringService.createMentoring(requestDto);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/my")
+    public ResponseEntity<Page<MentoringMyListResponseDto>> getMyMentorings(
+            @RequestParam Long mentorId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(mentoringService.getMyMentorings(mentorId, pageable));
+    }
+
 }
