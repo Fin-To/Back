@@ -24,4 +24,6 @@ public interface MemberLanguageRepository extends JpaRepository<MemberLanguage, 
         WHERE ml.member.id = :memberId
         """)
     List<String> findLanguageNamesByMemberId(@Param("memberId") Long memberId);
+
+    List<MemberLanguage> findAllByMember(Member member);
 }

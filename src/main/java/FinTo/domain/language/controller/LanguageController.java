@@ -55,6 +55,13 @@ public class LanguageController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<LanguagesResponseDto> getMyLanguages(
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        return ResponseEntity.ok(languageService.getMyLanguages(userDetails.getId()));
+    }
+
     @DeleteMapping("/me/{languageId}")
     public ResponseEntity<Void> removeFromMyLanguages(
             @AuthenticationPrincipal CustomUserDetails userDetails,

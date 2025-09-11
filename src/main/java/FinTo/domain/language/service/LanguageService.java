@@ -16,4 +16,6 @@ public interface LanguageService {
     void addToMyLanguages(Long memberId, Long languageId);
 
     void deleteFromMyLanguages(Long memberId, Long languageId);
+
+    LanguagesResponseDto getMyLanguages(Long memberId);
 }

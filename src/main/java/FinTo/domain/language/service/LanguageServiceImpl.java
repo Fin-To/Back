@@ -76,6 +76,19 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
+    public LanguagesResponseDto getMyLanguages(Long memberId) {
+        Member member = memberService.getById(memberId);
+        List<LanguageResponseDto> languageResponseDtos = memberLanguageRepository.findAllByMember(member)
+                .stream()
+                .map(ml -> new LanguageResponseDto(
+                        ml.getLanguage().getId(),
+                        ml.getLanguage().getName()
+                ))
+                .toList();
+        return new LanguagesResponseDto(languageResponseDtos);
+    }
+
+    @Override
     public void deleteFromMyLanguages(Long memberId, Long languageId) {
         Member member = memberService.getById(memberId);
         Language language = getById(languageId);
@@ -84,5 +97,4 @@ public class LanguageServiceImpl implements LanguageService {
                 .orElseThrow(() -> new IllegalArgumentException("추가되지 않은 언어"));
         memberLanguageRepository.delete(memberLanguage);
     }
-
 }
