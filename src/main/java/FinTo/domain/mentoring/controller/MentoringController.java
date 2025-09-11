@@ -1,15 +1,12 @@
 package FinTo.domain.mentoring.controller;
 
-import FinTo.domain.mentoring.domain.MentoringMeeting;
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
 import FinTo.domain.mentoring.dto.request.MentoringSearchCondition;
-import FinTo.domain.mentoring.dto.request.MentoringSortType;
 import FinTo.domain.mentoring.dto.request.MentoringUpdateRequestDto;
 import FinTo.domain.mentoring.dto.response.MentoringDayResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringMeetingResponseDto;
 import FinTo.domain.mentoring.service.MentoringMeetingService;
-import FinTo.domain.mentoring.dto.response.MentoringDayResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringMyListResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringTimeResponseDto;
 import FinTo.domain.mentoring.service.MentoringService;
@@ -19,6 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/mentoring")
@@ -46,15 +45,6 @@ public class MentoringController {
 
     @GetMapping("/me/requests")
     public ResponseEntity<Page<MentoringMeetingResponseDto>> getMentoringMeetings(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size
-    ){
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(mentoringMeetingService.getMentoringMeetings(pageable));
-    }
-
-    @GetMapping
-    public ResponseEntity<Page<MentoringCardResponseDto>> getAllMentorings(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ){
