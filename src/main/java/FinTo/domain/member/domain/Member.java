@@ -30,6 +30,8 @@ public class Member {
     private OAuthProvider oauthProvider;
     private String oauthId;
 
+    private String email;
+
     private String name;
     private LocalDate birthDate;
 
@@ -40,12 +42,13 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    public static Member of(String name, OAuthProvider oauthProvider, String oauthId) {
+    public static Member of(String name, OAuthProvider oauthProvider, String oauthId, String email) {
         return Member.builder()
                 .role(MemberRole.MEMBER)
                 .name(name)
                 .oauthProvider(oauthProvider)
                 .oauthId(oauthId)
+                .email(email)
                 .build();
     }
 }

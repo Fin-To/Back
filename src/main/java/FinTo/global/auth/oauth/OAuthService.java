@@ -1,9 +1,10 @@
 package FinTo.global.auth.oauth;
 
 import FinTo.domain.member.domain.OAuthProvider;
+import FinTo.global.auth.dto.OAuthInfoResponseDto;
 
 public interface OAuthService {
     OAuthProvider getProvider();
-    String getOAuthId(String code);
+    OAuthInfoResponseDto getOAuthId(String code);
     String getAuthorizationUrl();
 }
