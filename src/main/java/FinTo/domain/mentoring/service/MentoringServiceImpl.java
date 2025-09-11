@@ -6,6 +6,7 @@ import FinTo.domain.mentoring.domain.Mentoring;
 import FinTo.domain.mentoring.domain.MentoringDay;
 import FinTo.domain.mentoring.domain.MentoringTime;
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
+import FinTo.domain.mentoring.dto.response.MentoringCardResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringMyListResponseDto;
 import FinTo.domain.mentoring.repository.MentoringDayRepository;
 import FinTo.domain.mentoring.repository.MentoringRepository;
@@ -53,5 +54,12 @@ public class MentoringServiceImpl implements MentoringService {
     public Page<MentoringMyListResponseDto> getMyMentorings(Long mentorId, Pageable pageable) {
         return mentoringRepository.findByMentorId(mentorId, pageable)
                 .map(MentoringMyListResponseDto::fromEntity);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<MentoringCardResponseDto> getAllMentorings(Pageable pageable) {
+        return mentoringRepository.findAll(pageable)
+                .map(MentoringCardResponseDto::fromEntity);
     }
 }

@@ -1,6 +1,7 @@
 package FinTo.domain.mentoring.controller;
 
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
+import FinTo.domain.mentoring.dto.response.MentoringCardResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringMyListResponseDto;
 import FinTo.domain.mentoring.service.MentoringService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,15 @@ public class MentoringController {
     ) {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(mentoringService.getMyMentorings(mentorId, pageable));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<MentoringCardResponseDto>> getAllMentorings(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "9") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(mentoringService.getAllMentorings(pageable));
     }
 
 }
