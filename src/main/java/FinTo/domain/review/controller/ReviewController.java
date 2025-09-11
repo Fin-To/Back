@@ -8,6 +8,8 @@ import FinTo.domain.review.dto.response.ReviewResponseDto;
 import FinTo.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,9 +36,9 @@ public class ReviewController {
 
     @GetMapping("/{mentoringId}/list")
     public ResponseEntity<?> getReview(@PathVariable Long mentoringId,
-                                       @RequestParam Integer pageNumber,
-                                       @RequestParam Integer pageSize) {
-        Page<ReviewResponseDto> reviews = reviewService.getReviews(mentoringId, pageNumber, pageSize);
-        return ResponseEntity.ok(reviews);
+                                       @RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "3") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(reviewService.getReviews(mentoringId, pageable));
     }
 }
