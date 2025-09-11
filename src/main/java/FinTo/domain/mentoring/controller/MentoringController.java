@@ -103,5 +103,9 @@ public class MentoringController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{meetingId}/apply")
+    public ResponseEntity<MentoringMeetingDetailResponse> getMentoringApplication(@PathVariable Long meetingId){
+        return ResponseEntity.ok(mentoringMeetingService.getMentoringApplication(meetingId));
+    }
 
 }
