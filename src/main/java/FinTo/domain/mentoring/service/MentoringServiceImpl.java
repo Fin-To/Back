@@ -1,5 +1,7 @@
 package FinTo.domain.mentoring.service;
 
+import FinTo.domain.language.repository.MemberLanguageRepository;
+import FinTo.domain.member.domain.Member;
 import FinTo.domain.mentor.domain.Mentor;
 import FinTo.domain.mentor.repository.MentorRepository;
 import FinTo.domain.mentoring.domain.Mentoring;
@@ -9,10 +11,7 @@ import FinTo.domain.mentoring.domain.MentoringTime;
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
 import FinTo.domain.mentoring.dto.request.MentoringSearchCondition;
 import FinTo.domain.mentoring.dto.request.MentoringUpdateRequestDto;
-import FinTo.domain.mentoring.dto.response.MentoringResponseDto;
-import FinTo.domain.mentoring.dto.response.MentoringDayResponseDto;
-import FinTo.domain.mentoring.dto.response.MentoringMyListResponseDto;
-import FinTo.domain.mentoring.dto.response.MentoringTimeResponseDto;
+import FinTo.domain.mentoring.dto.response.*;
 import FinTo.domain.mentoring.repository.MentoringDayRepository;
 import FinTo.domain.mentoring.repository.MentoringQueryRepository;
 import FinTo.domain.mentoring.repository.MentoringRepository;
@@ -34,6 +33,7 @@ public class MentoringServiceImpl implements MentoringService {
     private final MentoringDayRepository mentoringDayRepository;
     private final MentoringTimeRepository mentoringTimeRepository;
     private final MentoringQueryRepository mentoringQueryRepository;
+    private final MemberLanguageRepository memberLanguageRepository;
 
     @Transactional
     @Override
@@ -71,6 +71,32 @@ public class MentoringServiceImpl implements MentoringService {
         return mentoringQueryRepository.search(condition, pageable)
                 .map(MentoringResponseDto::fromEntity);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public MentoringDetailResponseDto getMentoring(Long mentoringId){
+        Mentoring mentoring = mentoringRepository.findByIdWithDetails(mentoringId)
+                .orElseThrow(() -> new RuntimeException("멘토링을 찾을 수 없습니다."));
+
+        Mentor mentor = mentoring.getMentor();
+        Member member = mentor.getMember();
+
+        // 언어 정보 조회
+        List<String> languages = memberLanguageRepository.findLanguageNamesByMemberId(member.getId());
+
+        // 멘티 수 조회
+        Integer menteeCount = mentoringRepository.countMenteesByMentoringId(mentoringId);
+
+        return MentoringDetailResponseDto.of(
+                mentoring,
+                mentor,
+                member,
+                member.getNationality(),
+                languages,
+                menteeCount
+        );
+    }
+
 
     @Transactional
     @Override
