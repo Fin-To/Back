@@ -1,5 +1,6 @@
 package FinTo.domain.mentoring.service;
 
+import FinTo.domain.mentoring.dto.request.MentoringMeetingAcceptRequestDto;
 import FinTo.domain.mentoring.dto.response.MentoringMeetingDetailResponse;
 import FinTo.domain.mentoring.dto.response.MentoringMeetingResponseDto;
 import org.springframework.data.domain.Page;
@@ -12,5 +13,6 @@ public interface MentoringMeetingService {
     Page<MentoringMeetingResponseDto> getMentoringMeetings(Pageable pageable);
     void applyMentoring(Long mentoringId, Long memberId, LocalDateTime bookDateTime);
     MentoringMeetingDetailResponse getMentoringApplication(Long meetingId);
+    void acceptMeeting(MentoringMeetingAcceptRequestDto dto);
 }
 

@@ -4,9 +4,11 @@ import FinTo.domain.member.domain.Member;
 import FinTo.domain.member.repository.MemberRepository;
 import FinTo.domain.mentoring.domain.Mentoring;
 import FinTo.domain.mentoring.domain.MentoringMeeting;
+import FinTo.domain.mentoring.dto.request.MentoringMeetingAcceptRequestDto;
 import FinTo.domain.mentoring.dto.response.MentoringMeetingDetailResponse;
 import FinTo.domain.mentoring.dto.response.MentoringMeetingResponseDto;
 import FinTo.domain.mentoring.repository.MentoringMeetingRepository;
+import FinTo.global.mail.MailService;
 import FinTo.global.security.jwt.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class MentoringMeetingServiceImpl implements MentoringMeetingService {
     private final JwtUtil jwtUtil;
     private final MemberRepository memberRepository;
     private final MentoringMeetingRepository mentoringMeetingRepository;
+    private final MailService mailService;
 
     @Override
     @Transactional
@@ -71,4 +74,18 @@ public class MentoringMeetingServiceImpl implements MentoringMeetingService {
 
         return MentoringMeetingDetailResponse.from(meeting);
     };
+
+    @Override
+    @Transactional
+    public void acceptMeeting(MentoringMeetingAcceptRequestDto dto){
+        MentoringMeeting meeting = mentoringMeetingRepository.findById(dto.getMeetingId())
+                .orElseThrow(() -> new RuntimeException("미팅을 찾을 수 없습니다."));
+
+        meeting.setStatus(MeetingStatus.APPROVED);
+
+        Member mentee = meeting.getMember();
+        Member mentor = meeting.getMentoring().getMentor().getMember();
+
+        mailService.sendMail(mentor,mentee, meeting);
+    }
 }
