@@ -25,8 +25,4 @@ public class Nationality {
 
     @Column(length = 32, nullable = false)
     private String emoji; // 국기 이모지
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false, unique = true)
-    private Member member;
 }
