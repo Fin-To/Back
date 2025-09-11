@@ -1,6 +1,7 @@
 package FinTo.global.auth.oauth.google;
 
 import FinTo.domain.member.domain.OAuthProvider;
+import FinTo.global.auth.dto.OAuthInfoResponseDto;
 import FinTo.global.auth.oauth.OAuthService;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -33,9 +34,10 @@ public class GoogleOAuthService implements OAuthService {
     }
 
     @Override
-    public String getOAuthId(String code) {
+    public OAuthInfoResponseDto getOAuthId(String code) {
         GoogleTokenResponse tokenResponse = getAccessToken(code);
-        return getUserInfo(tokenResponse.getAccessToken()).getSub();
+        GoogleUserInfo userInfo = getUserInfo(tokenResponse.getAccessToken());
+        return OAuthInfoResponseDto.of(userInfo.getSub(),userInfo.getEmail());
     }
 
     @Override

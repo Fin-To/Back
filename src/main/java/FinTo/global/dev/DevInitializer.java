@@ -27,7 +27,7 @@ public class DevInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Member dev = memberService.getOrCreateByOAuthInfo(OAuthProvider.GOOGLE, "mockOAuthId");
+        Member dev = memberService.getOrCreateByOAuthInfo(OAuthProvider.GOOGLE, "mockOAuthId","mockOAuth@google.com");
 
         log.info("Dev Member: {}", dev.getId());
 

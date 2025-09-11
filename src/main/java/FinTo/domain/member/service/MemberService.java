@@ -8,7 +8,7 @@ import FinTo.domain.member.dto.MemberUpdateRequestDto;
 public interface MemberService {
     Member create(MemberCreateRequestDto dto);
     Member getById(Long memberId);
-    Member getOrCreateByOAuthInfo(OAuthProvider provider, String oAuthId);
+    Member getOrCreateByOAuthInfo(OAuthProvider provider, String oAuthId, String email);
     void update(Long memberId, MemberUpdateRequestDto dto);
     void delete(Long memberId);
 }

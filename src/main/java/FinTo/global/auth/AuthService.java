@@ -4,6 +4,7 @@ import FinTo.domain.member.domain.Member;
 import FinTo.domain.member.domain.OAuthProvider;
 import FinTo.domain.member.service.MemberService;
 import FinTo.global.auth.dto.LoginResponseDto;
+import FinTo.global.auth.dto.OAuthInfoResponseDto;
 import FinTo.global.auth.oauth.OAuthServiceFactory;
 import FinTo.global.security.jwt.JwtUtil;
 import jakarta.servlet.http.Cookie;
@@ -20,9 +21,9 @@ public class AuthService {
     private final JwtUtil jwtUtil;
 
     public LoginResponseDto login(HttpServletResponse response, OAuthProvider provider, String code) {
-        String oAuthId = oAuthServiceFactory.get(provider).getOAuthId(code);
+        OAuthInfoResponseDto oAuthInfo = oAuthServiceFactory.get(provider).getOAuthId(code);
 
-        Member member = memberService.getOrCreateByOAuthInfo(provider, oAuthId);
+        Member member = memberService.getOrCreateByOAuthInfo(provider, oAuthInfo.getOAuthId(), oAuthInfo.getEmail());
 
         String accessToken = jwtUtil.createAccessToken(member.getId());
         String refreshToken = jwtUtil.createRefreshToken(member.getId());
