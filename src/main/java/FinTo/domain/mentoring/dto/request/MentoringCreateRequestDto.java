@@ -27,7 +27,7 @@ public class MentoringCreateRequestDto {
         public MentoringDay toEntity(Mentoring mentoring) {
             return MentoringDay.builder()
                     .mentoring(mentoring)
-                    .day(MentoringDayOfWeek.valueOf(day))
+                    .mentoringDay(MentoringDayOfWeek.valueOf(day))
                     .build();
         }
     }

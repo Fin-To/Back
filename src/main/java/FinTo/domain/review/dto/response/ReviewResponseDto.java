@@ -1,9 +1,5 @@
 package FinTo.domain.review.dto.response;
 
-import FinTo.domain.member.domain.Gender;
-import FinTo.domain.member.domain.Member;
-import FinTo.domain.member.dto.MemberResponseDto;
-import FinTo.domain.nationality.Nationality;
 import FinTo.domain.review.domain.Review;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,7 +8,6 @@ import lombok.Data;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Data
 @AllArgsConstructor
