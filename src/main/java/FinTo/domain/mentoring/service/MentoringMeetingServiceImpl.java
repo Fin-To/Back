@@ -4,6 +4,7 @@ import FinTo.domain.member.domain.Member;
 import FinTo.domain.member.repository.MemberRepository;
 import FinTo.domain.mentoring.domain.Mentoring;
 import FinTo.domain.mentoring.domain.MentoringMeeting;
+import FinTo.domain.mentoring.dto.response.MentoringMeetingDetailResponse;
 import FinTo.domain.mentoring.dto.response.MentoringMeetingResponseDto;
 import FinTo.domain.mentoring.repository.MentoringMeetingRepository;
 import FinTo.global.security.jwt.JwtUtil;
@@ -62,5 +63,12 @@ public class MentoringMeetingServiceImpl implements MentoringMeetingService {
         mentoringMeetingRepository.save(meeting);
     }
 
+    @Override
+    @Transactional
+    public MentoringMeetingDetailResponse getMentoringApplication(Long meetingId){
+        MentoringMeeting meeting = mentoringMeetingRepository.findByIdWithMember(meetingId)
+                .orElseThrow(() -> new RuntimeException("미팅을 찾을 수 없습니다."));
 
+        return MentoringMeetingDetailResponse.from(meeting);
+    };
 }
