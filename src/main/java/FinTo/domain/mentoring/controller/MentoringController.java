@@ -1,8 +1,11 @@
 package FinTo.domain.mentoring.controller;
 
+import FinTo.domain.mentoring.domain.MentoringMeeting;
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
 import FinTo.domain.mentoring.dto.request.MentoringUpdateRequestDto;
 import FinTo.domain.mentoring.dto.response.MentoringCardResponseDto;
+import FinTo.domain.mentoring.dto.response.MentoringMeetingResponseDto;
+import FinTo.domain.mentoring.service.MentoringMeetingService;
 import FinTo.domain.mentoring.dto.response.MentoringDayResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringMyListResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringTimeResponseDto;
@@ -22,6 +25,7 @@ import java.util.List;
 public class MentoringController {
 
     private final MentoringService mentoringService;
+    private final MentoringMeetingService mentoringMeetingService;
 
     @PostMapping
     public ResponseEntity<Void> createMentoring(@RequestBody MentoringCreateRequestDto requestDto) {
@@ -37,6 +41,15 @@ public class MentoringController {
     ) {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(mentoringService.getMyMentorings(mentorId, pageable));
+    }
+
+    @GetMapping("/me/requests")
+    public ResponseEntity<Page<MentoringMeetingResponseDto>> getMentoringMeetings(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(mentoringMeetingService.getMentoringMeetings(pageable));
     }
 
     @GetMapping
