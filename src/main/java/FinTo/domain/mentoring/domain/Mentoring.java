@@ -36,5 +36,13 @@ public class Mentoring {
 
     @OneToMany(mappedBy = "mentoring", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MentoringDay> days = new ArrayList<>();
+
+    @Builder
+    public Mentoring(Mentor mentor, String title, String content, String notice) {
+        this.mentor = mentor;
+        this.title = title;
+        this.content = content;
+        this.notice = notice;
+    }
 }
 
