@@ -36,9 +36,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Member getOrCreateByOAuthInfo(OAuthProvider provider, String oAuthId) {
+    public Member getOrCreateByOAuthInfo(OAuthProvider provider, String oAuthId, String email) {
         return memberRepository.findByOauthProviderAndOauthId(provider, oAuthId)
-                .orElseGet(() -> create(MemberCreateRequestDto.of(null, provider, oAuthId)));
+                .orElseGet(() -> create(MemberCreateRequestDto.of(null, provider, oAuthId, email)));
     }
 
     @Override
