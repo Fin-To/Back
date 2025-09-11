@@ -2,8 +2,10 @@ package FinTo.domain.mentoring.controller;
 
 import FinTo.domain.mentoring.domain.MentoringMeeting;
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
+import FinTo.domain.mentoring.dto.request.MentoringSearchCondition;
+import FinTo.domain.mentoring.dto.request.MentoringSortType;
 import FinTo.domain.mentoring.dto.request.MentoringUpdateRequestDto;
-import FinTo.domain.mentoring.dto.response.MentoringCardResponseDto;
+import FinTo.domain.mentoring.dto.response.MentoringResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringMeetingResponseDto;
 import FinTo.domain.mentoring.service.MentoringMeetingService;
 import FinTo.domain.mentoring.dto.response.MentoringDayResponseDto;
@@ -35,6 +37,7 @@ public class MentoringController {
 
     @GetMapping("/me")
     public ResponseEntity<Page<MentoringMyListResponseDto>> getMyMentorings(
+
             @RequestParam Long mentorId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
@@ -53,12 +56,13 @@ public class MentoringController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<MentoringCardResponseDto>> getAllMentorings(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "9") int size
-    ) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(mentoringService.getAllMentorings(pageable));
+    public ResponseEntity<Page<MentoringResponseDto>> search(
+            @RequestParam(name = "title", required = false) String title,
+            Pageable pageable
+            ) {
+        MentoringSearchCondition condition = new MentoringSearchCondition();
+        condition.setTitle(title);
+        return ResponseEntity.ok(mentoringService.search(condition, pageable));
     }
 
     @PatchMapping("/{id}")
