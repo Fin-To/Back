@@ -1,14 +1,12 @@
 package FinTo.domain.mentoring.controller;
 
-import FinTo.domain.mentoring.domain.MentoringMeeting;
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
 import FinTo.domain.mentoring.dto.request.MentoringSearchCondition;
-import FinTo.domain.mentoring.dto.request.MentoringSortType;
 import FinTo.domain.mentoring.dto.request.MentoringUpdateRequestDto;
+import FinTo.domain.mentoring.dto.response.MentoringDayResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringMeetingResponseDto;
 import FinTo.domain.mentoring.service.MentoringMeetingService;
-import FinTo.domain.mentoring.dto.response.MentoringDayResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringMyListResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringTimeResponseDto;
 import FinTo.domain.mentoring.service.MentoringService;
@@ -22,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mentorings")
+@RequestMapping("/mentoring")
 @RequiredArgsConstructor
 public class MentoringController {
 
@@ -37,7 +35,6 @@ public class MentoringController {
 
     @GetMapping("/me")
     public ResponseEntity<Page<MentoringMyListResponseDto>> getMyMentorings(
-
             @RequestParam Long mentorId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size

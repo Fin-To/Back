@@ -14,9 +14,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -60,10 +58,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Page<ReviewResponseDto> getReviews(Long mentoringId, Integer pageNumber, Integer pageSize){
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("createdAt").descending());
+    public Page<ReviewResponseDto> getReviews(Long mentoringId, Pageable pageable){
         Page<Review> reviewPage = reviewRepository.findByMentoringId(mentoringId, pageable);
-
         return reviewPage.map(ReviewResponseDto::of);
     }
 
