@@ -39,7 +39,8 @@ public class SecurityConfig {
                                 "/auth/**",
                                 "/test/anonymous",
                                 "/actuator/health",
-                                "/signaling"
+                                "/signaling",
+                                "/api/mentoring/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
