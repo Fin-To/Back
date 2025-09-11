@@ -18,9 +18,8 @@ import java.util.Optional;
 public class MemberResponseDto {
 
     private Long id;
+    private String profileImg;
     private String name;
-    private LocalDate birthDate;
-    private Gender gender;
     private String nationality;
 
     public static ResponseEntity<MemberResponseDto> toResponseEntity(Member member){
@@ -30,9 +29,8 @@ public class MemberResponseDto {
     public static MemberResponseDto of(Member member){
         return MemberResponseDto.builder()
                 .id(member.getId())
+                .profileImg(member.getProfileImg())
                 .name(member.getName())
-                .birthDate(member.getBirthDate())
-                .gender(member.getGender())
                 .nationality(
                         Optional.ofNullable(member.getNationality())
                                 .map(Nationality::getName)
