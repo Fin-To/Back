@@ -1,6 +1,5 @@
 package FinTo.domain.mentoring.service;
 
-import FinTo.domain.calendar.service.CalendarService;
 import FinTo.domain.member.domain.Member;
 import FinTo.domain.member.repository.MemberRepository;
 import FinTo.domain.mentoring.domain.Mentoring;
@@ -29,7 +28,6 @@ public class MentoringMeetingServiceImpl implements MentoringMeetingService {
     private final JwtUtil jwtUtil;
     private final MemberRepository memberRepository;
     private final MentoringMeetingRepository mentoringMeetingRepository;
-    private final CalendarService calendarService;
 
     @Override
     @Transactional
@@ -58,12 +56,10 @@ public class MentoringMeetingServiceImpl implements MentoringMeetingService {
                 .member(member)
                 .status(MeetingStatus.PENDING) // 신청 직후 "대기"
                 .welcome("신청 완료되었습니다.")
+                .reservationTime(bookDatetime)
                 .build();
 
         mentoringMeetingRepository.save(meeting);
-
-        // calendar 저장
-        calendarService.saveCalendar(meeting, bookDatetime);
     }
 
 

@@ -5,6 +5,8 @@ import FinTo.domain.mentor.domain.Mentor;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "mentoring_meeting")
 @Getter
@@ -32,4 +34,7 @@ public class MentoringMeeting {
 
     @Column(nullable = false, length = 500)
     private String welcome;
+
+    @Column(name="reservation_time")
+    private LocalDateTime reservationTime;
 }
