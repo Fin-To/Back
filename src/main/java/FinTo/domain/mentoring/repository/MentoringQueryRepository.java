@@ -1,16 +1,11 @@
 package FinTo.domain.mentoring.repository;
 
-import FinTo.domain.mentoring.domain.Mentoring;
-import FinTo.domain.mentoring.domain.QMentoring;
 import FinTo.domain.mentoring.dto.request.MentoringSearchCondition;
 import FinTo.domain.mentoring.dto.request.MentoringSortType;
 import FinTo.domain.mentoring.dto.response.MentoringResponseDto;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -79,7 +74,7 @@ public class MentoringQueryRepository {
 
         // 3️⃣ DTO 변환
         List<MentoringResponseDto> content = tuples.stream().map(t -> MentoringResponseDto.builder()
-                        .id(t.get(mentoring.id))
+                        .mentoringId(t.get(mentoring.id))
                         .title(t.get(mentoring.title))
                         .notice(t.get(mentoring.notice))
                         .name(t.get(member.name))
