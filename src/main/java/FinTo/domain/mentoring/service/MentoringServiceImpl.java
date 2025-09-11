@@ -68,8 +68,7 @@ public class MentoringServiceImpl implements MentoringService {
     @Transactional(readOnly = true)
     @Override
     public Page<MentoringResponseDto> search(MentoringSearchCondition condition, Pageable pageable) {
-        return mentoringQueryRepository.search(condition, pageable)
-                .map(MentoringResponseDto::fromEntity);
+        return mentoringQueryRepository.search(condition, pageable);
     }
 
     @Transactional
