@@ -3,7 +3,6 @@ package FinTo.domain.mentoring.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +25,10 @@ public class MentoringDay {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
-    private MentoringDayOfWeek day;
+    private MentoringDayOfWeek mentoringDay;
 
     @OneToMany(mappedBy = "mentoringDay", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<MentoringTime> times = new ArrayList<>();
 }
 

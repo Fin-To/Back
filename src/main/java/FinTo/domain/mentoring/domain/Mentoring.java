@@ -36,6 +36,7 @@ public class Mentoring {
     private String notice;
 
     @OneToMany(mappedBy = "mentoring", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<MentoringDay> days = new ArrayList<>();
 
     @Builder

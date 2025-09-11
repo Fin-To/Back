@@ -29,5 +29,6 @@ public class Mentor {
     private String introduce;
 
     @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Mentoring> mentorings = new ArrayList<>();
 }

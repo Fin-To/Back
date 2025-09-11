@@ -2,7 +2,6 @@ package FinTo.domain.member.domain;
 
 import FinTo.domain.language.domain.MemberLanguage;
 import FinTo.domain.nationality.domain.Nationality;
-import FinTo.domain.nationality.Nationality;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -49,10 +48,8 @@ public class Member {
     private Gender gender;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<MemberLanguage> memberLanguages = new ArrayList<>();
-
-    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Nationality nationality;
 
 
     public static Member of(String name, OAuthProvider oauthProvider, String oauthId, String email) {
