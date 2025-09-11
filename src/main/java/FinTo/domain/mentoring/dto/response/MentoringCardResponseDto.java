@@ -15,6 +15,8 @@ public class MentoringCardResponseDto {
     private String mentorName;
     private String mentorProfile;
     private List<String> languages;
+    private String nationalityName;
+    private String nationalityEmoji;
 
     public static MentoringCardResponseDto fromEntity(Mentoring mentoring) {
         return MentoringCardResponseDto.builder()
@@ -27,6 +29,16 @@ public class MentoringCardResponseDto {
                         mentoring.getMentor().getMember().getMemberLanguages().stream()
                                 .map(ml -> ml.getLanguage().getName())
                                 .toList()
+                )
+                .nationalityName(
+                        mentoring.getMentor().getMember().getNationality() != null
+                                ? mentoring.getMentor().getMember().getNationality().getName()
+                                : null
+                )
+                .nationalityEmoji(
+                        mentoring.getMentor().getMember().getNationality() != null
+                                ? mentoring.getMentor().getMember().getNationality().getEmoji()
+                                : null
                 )
                 .build();
     }
