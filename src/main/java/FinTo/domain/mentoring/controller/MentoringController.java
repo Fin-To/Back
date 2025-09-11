@@ -51,10 +51,12 @@ public class MentoringController {
     @GetMapping
     public ResponseEntity<Page<MentoringResponseDto>> search(
             @RequestParam(name = "title", required = false) String title,
+            @RequestParam(name = "sortType", defaultValue = "RATING") MentoringSortType sortType,
             Pageable pageable
             ) {
         MentoringSearchCondition condition = new MentoringSearchCondition();
         condition.setTitle(title);
+        condition.setSortType(sortType);
         return ResponseEntity.ok(mentoringService.search(condition, pageable));
     }
 
