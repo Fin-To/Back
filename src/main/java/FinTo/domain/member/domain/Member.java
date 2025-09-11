@@ -1,10 +1,14 @@
 package FinTo.domain.member.domain;
 
+import FinTo.domain.language.domain.MemberLanguage;
+import FinTo.domain.nationality.domain.Nationality;
 import FinTo.domain.nationality.Nationality;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,12 +39,21 @@ public class Member {
     private String name;
     private LocalDate birthDate;
 
+    private String profileImg;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nationality_id")
     private Nationality nationality;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MemberLanguage> memberLanguages = new ArrayList<>();
+
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Nationality nationality;
+
 
     public static Member of(String name, OAuthProvider oauthProvider, String oauthId, String email) {
         return Member.builder()

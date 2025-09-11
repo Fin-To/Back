@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "mentoring")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
