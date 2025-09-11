@@ -2,6 +2,7 @@ package FinTo.domain.mentoring.controller;
 
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
 import FinTo.domain.mentoring.dto.request.MentoringSearchCondition;
+import FinTo.domain.mentoring.dto.request.MentoringSortType;
 import FinTo.domain.mentoring.dto.request.MentoringUpdateRequestDto;
 import FinTo.domain.mentoring.dto.response.MentoringDayResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringResponseDto;
@@ -14,10 +15,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/mentoring")
@@ -85,4 +89,16 @@ public class MentoringController {
     ) {
         return ResponseEntity.ok(mentoringService.getMentoringTimes(mentoringId, day));
     }
+
+    @PostMapping("/{mentoringId}/apply")
+    public ResponseEntity<Void> applyMentoring(
+            @PathVariable Long mentoringId,
+            @RequestParam Long memberId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime bookDatetime
+    ) {
+        mentoringMeetingService.applyMentoring(mentoringId, memberId, bookDatetime);
+        return ResponseEntity.ok().build();
+    }
+
+
 }
