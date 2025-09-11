@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface MentoringMeetingRepository extends JpaRepository<MentoringMeeting, Long> {
     @Query("""
@@ -26,5 +28,12 @@ public interface MentoringMeetingRepository extends JpaRepository<MentoringMeeti
         WHERE mentor.member.id = :memberId
         """)
     Page<MentoringMeetingResponseDto> findMentoringMeetingInfoByMemberId(@Param("memberId") Long memberId, Pageable pageable);
+
+    @Query("""
+        SELECT mm FROM MentoringMeeting mm
+        JOIN FETCH mm.member
+        WHERE mm.id = :meetingId
+        """)
+    Optional<MentoringMeeting> findByIdWithMember(@Param("meetingId") Long meetingId);
 
 }
