@@ -6,6 +6,7 @@ import FinTo.domain.mentoring.domain.Mentoring;
 import FinTo.domain.mentoring.domain.MentoringDay;
 import FinTo.domain.mentoring.domain.MentoringTime;
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
+import FinTo.domain.mentoring.dto.request.MentoringUpdateRequestDto;
 import FinTo.domain.mentoring.dto.response.MentoringCardResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringMyListResponseDto;
 import FinTo.domain.mentoring.repository.MentoringDayRepository;
@@ -62,4 +63,19 @@ public class MentoringServiceImpl implements MentoringService {
         return mentoringRepository.findAll(pageable)
                 .map(MentoringCardResponseDto::fromEntity);
     }
+
+    @Transactional
+    @Override
+    public void updateMentoring(Long mentoringId, MentoringUpdateRequestDto requestDto) {
+        Mentoring mentoring = mentoringRepository.findById(mentoringId)
+                .orElseThrow(() -> new IllegalArgumentException("멘토링을 찾을 수 없습니다."));
+
+        if (requestDto.getTitle() != null) {
+            mentoring.setTitle(requestDto.getTitle());
+        }
+        if (requestDto.getContent() != null) {
+            mentoring.setContent(requestDto.getContent());
+        }
+    }
+
 }

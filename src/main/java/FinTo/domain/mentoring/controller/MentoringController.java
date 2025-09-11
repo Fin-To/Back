@@ -1,6 +1,7 @@
 package FinTo.domain.mentoring.controller;
 
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
+import FinTo.domain.mentoring.dto.request.MentoringUpdateRequestDto;
 import FinTo.domain.mentoring.dto.response.MentoringCardResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringMyListResponseDto;
 import FinTo.domain.mentoring.service.MentoringService;
@@ -42,5 +43,15 @@ public class MentoringController {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(mentoringService.getAllMentorings(pageable));
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateMentoring(
+            @PathVariable Long id,
+            @RequestBody MentoringUpdateRequestDto requestDto
+    ) {
+        mentoringService.updateMentoring(id, requestDto);
+        return ResponseEntity.ok().build();
+    }
+
 
 }
