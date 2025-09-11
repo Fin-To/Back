@@ -4,12 +4,15 @@ import FinTo.domain.mentor.domain.Mentor;
 import FinTo.domain.mentor.repository.MentorRepository;
 import FinTo.domain.mentoring.domain.Mentoring;
 import FinTo.domain.mentoring.domain.MentoringDay;
+import FinTo.domain.mentoring.domain.MentoringDayOfWeek;
 import FinTo.domain.mentoring.domain.MentoringTime;
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
 import FinTo.domain.mentoring.dto.request.MentoringSearchCondition;
 import FinTo.domain.mentoring.dto.request.MentoringUpdateRequestDto;
 import FinTo.domain.mentoring.dto.response.MentoringResponseDto;
+import FinTo.domain.mentoring.dto.response.MentoringDayResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringMyListResponseDto;
+import FinTo.domain.mentoring.dto.response.MentoringTimeResponseDto;
 import FinTo.domain.mentoring.repository.MentoringDayRepository;
 import FinTo.domain.mentoring.repository.MentoringQueryRepository;
 import FinTo.domain.mentoring.repository.MentoringRepository;
@@ -19,6 +22,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -80,5 +85,28 @@ public class MentoringServiceImpl implements MentoringService {
             mentoring.setContent(requestDto.getContent());
         }
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<MentoringDayResponseDto> getMentoringDays(Long mentoringId) {
+        return mentoringDayRepository.findByMentoring_Id(mentoringId)
+                .stream()
+                .map(MentoringDayResponseDto::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<MentoringTimeResponseDto> getMentoringTimes(Long mentoringId, String day) {
+        MentoringDay mentoringDay = mentoringDayRepository
+                .findByMentoring_IdAndMentoringDay(mentoringId, MentoringDayOfWeek.valueOf(day.toUpperCase()))
+                .orElseThrow(() -> new IllegalArgumentException("해당 요일 없음"));
+
+        return mentoringTimeRepository.findByMentoringDay_Id(mentoringDay.getId())
+                .stream()
+                .map(MentoringTimeResponseDto::from)
+                .toList();
+    }
+
 
 }
