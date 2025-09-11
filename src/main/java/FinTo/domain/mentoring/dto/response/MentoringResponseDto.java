@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class MentoringResponseDto {
-    private Long id;
+    private Long mentoringId;
     private String title;
     private String notice;
     private String name;
@@ -24,7 +24,7 @@ public class MentoringResponseDto {
 
     public static MentoringResponseDto fromEntity(Mentoring mentoring) {
         return MentoringResponseDto.builder()
-                .id(mentoring.getId())
+                .mentoringId(mentoring.getId())
                 .title(mentoring.getTitle())
                 .notice(mentoring.getNotice())
                 .name(mentoring.getMentor().getMember().getName())
