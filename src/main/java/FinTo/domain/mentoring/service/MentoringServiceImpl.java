@@ -6,10 +6,12 @@ import FinTo.domain.mentoring.domain.Mentoring;
 import FinTo.domain.mentoring.domain.MentoringDay;
 import FinTo.domain.mentoring.domain.MentoringTime;
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
+import FinTo.domain.mentoring.dto.request.MentoringSearchCondition;
 import FinTo.domain.mentoring.dto.request.MentoringUpdateRequestDto;
-import FinTo.domain.mentoring.dto.response.MentoringCardResponseDto;
+import FinTo.domain.mentoring.dto.response.MentoringResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringMyListResponseDto;
 import FinTo.domain.mentoring.repository.MentoringDayRepository;
+import FinTo.domain.mentoring.repository.MentoringQueryRepository;
 import FinTo.domain.mentoring.repository.MentoringRepository;
 import FinTo.domain.mentoring.repository.MentoringTimeRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class MentoringServiceImpl implements MentoringService {
     private final MentoringRepository mentoringRepository;
     private final MentoringDayRepository mentoringDayRepository;
     private final MentoringTimeRepository mentoringTimeRepository;
+    private final MentoringQueryRepository mentoringQueryRepository;
 
     @Transactional
     @Override
@@ -59,9 +62,9 @@ public class MentoringServiceImpl implements MentoringService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<MentoringCardResponseDto> getAllMentorings(Pageable pageable) {
-        return mentoringRepository.findAll(pageable)
-                .map(MentoringCardResponseDto::fromEntity);
+    public Page<MentoringResponseDto> search(MentoringSearchCondition condition, Pageable pageable) {
+        return mentoringQueryRepository.search(condition, pageable)
+                .map(MentoringResponseDto::fromEntity);
     }
 
     @Transactional
