@@ -4,12 +4,8 @@ import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
 import FinTo.domain.mentoring.dto.request.MentoringSearchCondition;
 import FinTo.domain.mentoring.dto.request.MentoringSortType;
 import FinTo.domain.mentoring.dto.request.MentoringUpdateRequestDto;
-import FinTo.domain.mentoring.dto.response.MentoringDayResponseDto;
-import FinTo.domain.mentoring.dto.response.MentoringResponseDto;
-import FinTo.domain.mentoring.dto.response.MentoringMeetingResponseDto;
+import FinTo.domain.mentoring.dto.response.*;
 import FinTo.domain.mentoring.service.MentoringMeetingService;
-import FinTo.domain.mentoring.dto.response.MentoringMyListResponseDto;
-import FinTo.domain.mentoring.dto.response.MentoringTimeResponseDto;
 import FinTo.domain.mentoring.service.MentoringService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -66,6 +62,13 @@ public class MentoringController {
         condition.setTitle(title);
         condition.setSortType(sortType);
         return ResponseEntity.ok(mentoringService.search(condition, pageable));
+    }
+
+    @GetMapping("/{mentoringId}")
+    public ResponseEntity<MentoringDetailResponseDto> getMentoring(
+            @PathVariable long mentoringId
+    ){
+        return ResponseEntity.ok(mentoringService.getMentoring(mentoringId));
     }
 
     @PatchMapping("/{id}")
