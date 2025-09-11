@@ -2,6 +2,7 @@ package FinTo.domain.member.domain;
 
 import FinTo.domain.language.domain.MemberLanguage;
 import FinTo.domain.nationality.domain.Nationality;
+import FinTo.domain.nationality.Nationality;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,6 +40,10 @@ public class Member {
     private LocalDate birthDate;
 
     private String profileImg;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "nationality_id")
+    private Nationality nationality;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;

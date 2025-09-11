@@ -18,6 +18,7 @@ public class MentoringMyListResponseDto {
     private String nationalityName;
     private String nationalityEmoji;
 
+
     public static MentoringMyListResponseDto fromEntity(Mentoring mentoring) {
         return MentoringMyListResponseDto.builder()
                 .id(mentoring.getId())
