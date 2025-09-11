@@ -2,6 +2,7 @@ package FinTo.domain.mentoring.controller;
 
 import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
 import FinTo.domain.mentoring.dto.request.MentoringSearchCondition;
+import FinTo.domain.mentoring.dto.request.MentoringSortType;
 import FinTo.domain.mentoring.dto.request.MentoringUpdateRequestDto;
 import FinTo.domain.mentoring.dto.response.MentoringDayResponseDto;
 import FinTo.domain.mentoring.dto.response.MentoringResponseDto;
