@@ -1,4 +1,4 @@
-package FinTo.domain.nationality;
+package FinTo.domain.nationality.exception;
 
 import FinTo.global.error.BaseException;
 import FinTo.global.error.ErrorCode;

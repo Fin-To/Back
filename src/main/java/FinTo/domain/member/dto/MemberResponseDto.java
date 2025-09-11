@@ -2,7 +2,7 @@ package FinTo.domain.member.dto;
 
 import FinTo.domain.member.domain.Gender;
 import FinTo.domain.member.domain.Member;
-import FinTo.domain.nationality.Nationality;
+import FinTo.domain.nationality.domain.Nationality;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

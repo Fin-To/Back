@@ -1,5 +1,8 @@
-package FinTo.domain.nationality;
+package FinTo.domain.nationality.service;
 
+import FinTo.domain.nationality.domain.Nationality;
+import FinTo.domain.nationality.repository.NationalityRepository;
+import FinTo.domain.nationality.exception.NationalityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
