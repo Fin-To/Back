@@ -12,4 +12,8 @@ public interface LanguageService {
     void update(Long languageId, LanguageUpdateRequestDto requestDto);
 
     void delete(Long languageId);
+
+    void addToMyLanguages(Long memberId, Long languageId);
+
+    void deleteFromMyLanguages(Long memberId, Long languageId);
 }

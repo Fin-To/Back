@@ -4,8 +4,10 @@ import FinTo.domain.language.dto.LanguageCreateRequestDto;
 import FinTo.domain.language.dto.LanguagesResponseDto;
 import FinTo.domain.language.dto.LanguageUpdateRequestDto;
 import FinTo.domain.language.service.LanguageService;
+import FinTo.global.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +31,7 @@ public class LanguageController {
 
     @PutMapping("/{languageId}")
     public ResponseEntity<Void> update(
-        @PathVariable Long languageId,
+        @PathVariable(name = "languageId") Long languageId,
         @Validated @RequestBody LanguageUpdateRequestDto requestDto
     ) {
         languageService.update(languageId, requestDto);
@@ -38,9 +40,27 @@ public class LanguageController {
 
     @DeleteMapping("/{languageId}")
     public ResponseEntity<Void> delete(
-            @PathVariable Long languageId
+            @PathVariable(name = "languageId") Long languageId
     ) {
         languageService.delete(languageId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/me/{languageId}")
+    public ResponseEntity<Void> addToMyLanguages(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable(name = "languageId") Long languageId
+    ) {
+        languageService.addToMyLanguages(userDetails.getId(), languageId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/me/{languageId}")
+    public ResponseEntity<Void> removeFromMyLanguages(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable(name = "languageId") Long languageId
+    ) {
+        languageService.deleteFromMyLanguages(userDetails.getId(), languageId);
         return ResponseEntity.ok().build();
     }
 }
