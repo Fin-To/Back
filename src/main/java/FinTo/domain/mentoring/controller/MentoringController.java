@@ -1,9 +1,6 @@
 package FinTo.domain.mentoring.controller;
 
-import FinTo.domain.mentoring.dto.request.MentoringCreateRequestDto;
-import FinTo.domain.mentoring.dto.request.MentoringSearchCondition;
-import FinTo.domain.mentoring.dto.request.MentoringSortType;
-import FinTo.domain.mentoring.dto.request.MentoringUpdateRequestDto;
+import FinTo.domain.mentoring.dto.request.*;
 import FinTo.domain.mentoring.dto.response.*;
 import FinTo.domain.mentoring.service.MentoringMeetingService;
 import FinTo.domain.mentoring.service.MentoringService;
@@ -108,4 +105,9 @@ public class MentoringController {
         return ResponseEntity.ok(mentoringMeetingService.getMentoringApplication(meetingId));
     }
 
+    @PostMapping("/accept")
+    public ResponseEntity<Void> acceptMentoring(@RequestBody MentoringMeetingAcceptRequestDto dto){
+        mentoringMeetingService.acceptMeeting(dto);
+        return ResponseEntity.ok().build();
+    }
 }
