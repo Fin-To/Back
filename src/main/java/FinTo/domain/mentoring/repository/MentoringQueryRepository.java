@@ -19,6 +19,7 @@ import java.util.List;
 import static FinTo.domain.language.domain.QLanguage.language;
 import static FinTo.domain.language.domain.QMemberLanguage.memberLanguage;
 import static FinTo.domain.member.domain.QMember.member;
+import static FinTo.domain.mentor.domain.QMentor.mentor;
 import static FinTo.domain.mentoring.domain.QMentoring.mentoring;
 import static FinTo.domain.review.domain.QReview.review;
 
@@ -33,7 +34,11 @@ public class MentoringQueryRepository {
         List<Mentoring> content = queryFactory
                 .selectDistinct(mentoring)
                 .from(mentoring)
+                .leftJoin(mentoring.mentor, mentor)
+                .leftJoin(review).on(review.mentoring.eq(mentoring))
                 .where(titleContains(condition.getTitle()))
+                .groupBy(mentoring.id)
+                .orderBy(getOrderSpecifier(condition.getSortType()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -51,5 +56,12 @@ public class MentoringQueryRepository {
     // === 조건절 ===
     private BooleanExpression titleContains(String title) {
         return (title != null && !title.isEmpty()) ? mentoring.title.containsIgnoreCase(title) : null;
+    }
+
+    private OrderSpecifier<?> getOrderSpecifier(MentoringSortType sortType) {
+        return switch (sortType) {
+            case TITLE -> mentoring.title.asc();
+            case RATING -> review.rating.avg().desc();
+        };
     }
 }
