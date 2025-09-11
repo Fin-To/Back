@@ -12,6 +12,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
@@ -40,9 +41,13 @@ public class SecurityConfig {
                                 "/test/anonymous",
                                 "/actuator/health",
                                 "/signaling",
-                                "/api/mentoring/**"
+                                "/api/mentoring/**",
+                                "/h2-console/**"
                         ).permitAll()
                         .anyRequest().authenticated()
+                )
+                .headers(headers -> headers
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin) // H2 Console iframe 허용
                 )
                 .addFilterAfter(jwtAuthenticationFilter(), LogoutFilter.class)
                 .exceptionHandling(configurer -> configurer
